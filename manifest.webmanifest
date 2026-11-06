@@ -1,4 +1,4 @@
-{ "id": "./", "name": "ftir_sim — identificação de polímeros", "short_name": "FTIR", "description": "Identifica polímeros por FT-IR (ATR) no aparelho, sem rede.",
+{ "id": "./", "name": "Identificador de polímeros (FT-IR)", "short_name": "ID Polímero", "description": "Identifica polímeros por FT-IR (ATR) no aparelho, sem rede.",
   "start_url": "./index.html", "scope": "./", "display": "standalone", "lang": "pt-BR", "categories": ["education", "utilities"],
   "background_color": "#ffffff", "theme_color": "#1b4965",
   "icons": [ { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
