@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ftir_sim — identificação de polímeros</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="ftir_sim — identificação de polímeros">
+<meta property="og:description" content="Identifica polímeros por FT-IR (ATR) no aparelho, sem rede.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://projetoindustrial.github.io/ftir/icon-512.png">
+<meta name="description" content="Identificação de polímeros por FT-IR (ATR) que roda no aparelho, sem rede.">
+<meta name="theme-color" content="#1b4965">
+<style>
+  :root { --bg:#fff; --fg:#1a1a1a; --mut:#5c6b73; --ac:#1b4965; --ok:#2d6a4f; --warn:#9d0208; --card:#f3f6f8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12181c; --fg:#e8eef1; --mut:#9fb0b8; --ac:#6fb1d6; --ok:#74c69d; --warn:#ff8087; --card:#1c252b; } }
+  body { margin:0; font:16px/1.4 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  main { max-width:720px; margin:0 auto; padding:16px; }
+  h1 { font-size:1.2rem; margin:0 0 4px; } p.sub { color:var(--mut); margin:0 0 16px; font-size:.9rem; }
+  label { display:block; margin:10px 0 2px; font-size:.9rem; color:var(--mut); }
+  input[type=file], select { width:100%; }
+  button { background:var(--ac); color:var(--bg); border:0; padding:12px 16px; border-radius:8px; font-size:1rem; margin:8px 8px 8px 0; }
+  button:disabled { opacity:.5; }
+  .card { background:var(--card); border-radius:10px; padding:12px 14px; margin-top:14px; }
+  .big { font-size:1.6rem; font-weight:700; } .ok { color:var(--ok); } .bad { color:var(--warn); }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; } td { padding:2px 4px; } td:last-child { text-align:right; }
+  canvas { display:block; width:100%; height:180px; background:var(--bg); border-radius:6px; }
+  .tabs { display:flex; gap:8px; margin:8px 0; } .tabs button { margin:0; flex:1; background:var(--card); color:var(--fg); } .tabs button[aria-selected=true] { background:var(--ac); color:var(--bg); }
+  .aviso { border-left:4px solid var(--warn); } details { margin-top:14px; font-size:.85rem; color:var(--mut); } summary { cursor:pointer; }
+  th { text-align:left; font-weight:600; color:var(--mut); } th:last-child { text-align:right; }
+  small { color:var(--mut); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Identificação de polímeros (FT-IR)</h1>
+  <p class="sub">Roda no aparelho, sem rede. Carregue interferogramas (CSV do ftir_sim ou do firmware), um espectro pronto, ou use um exemplo.</p>
+  <div class="tabs" role="tablist"><button id="tab1" role="tab" aria-selected="true">Interferograma</button><button id="tab2" role="tab" aria-selected="false">Espectro pronto</button></div>
+  <section id="p1">
+  <label for="fs">Amostra</label><input id="fs" type="file" accept=".csv,text/csv">
+  <label for="fb">Background</label><input id="fb" type="file" accept=".csv,text/csv">
+  <label for="fb2">2º background (mede o ruído da linha de 100%)</label><input id="fb2" type="file" accept=".csv,text/csv">
+  <label for="atr">Dados</label>
+  <select id="atr"><option value="1">ATR crua (aplicar correção ATR)</option><option value="0">ATR já corrigida / transmissão</option></select>
+  <label for="nfft">Tamanho da FFT</label>
+  <select id="nfft"><option value="16384">16384 (referência)</option><option value="8192">8192 (menos memória)</option></select>
+  <div><button id="run">Analisar</button><button id="demo1">Exemplo: PET</button><button id="demo2">Exemplo: fibra poliamida (esperado: desconhecido)</button></div>
+  </section>
+  <section id="p2" hidden>
+  <label for="sp">Espectro (CSV: número de onda, valor; cobrir 750–3500 cm⁻¹)</label><input id="sp" type="file" accept=".csv,.txt,text/csv,text/plain">
+  <label for="sunit">Unidade do eixo y</label>
+  <select id="sunit"><option value="A">Absorbância</option><option value="T%">Transmitância (%)</option><option value="T">Transmitância (fração 0–1)</option></select>
+  <label for="satr">Técnica</label>
+  <select id="satr"><option value="1">ATR (aplicar correção ATR)</option><option value="0">Transmissão / ATR já corrigida</option></select>
+  <div><button id="srun">Analisar espectro</button><button id="sdemo">Exemplo: PET</button></div>
+  <small>Sem 2º background não há ruído de linha medido: o limiar é fixo em 0,60 (o mais conservador da regra adaptativa).</small>
+  </section>
+  <div id="out" class="card" hidden aria-live="polite"></div>
+  <p><small id="status" role="status">Carregando biblioteca…</small></p>
+  <p class="card aviso"><small>Ferramenta de pesquisa. A biblioteca tem 5 polímeros (PE, PET, PLA, PP, PS) mais classes de rejeição e não foi calibrada para um aparelho real nem testada em celular. “Desconhecido” significa fora da biblioteca, não ausência de polímero. Não use para decisões de segurança ou conformidade.</small></p>
+  <details><summary>Créditos e licenças</summary>
+  <p>Código: MIT. A biblioteca embutida (<code>lib.json</code>) é derivada de dados abertos e, por conter material CC BY-SA, é distribuída em CC BY-SA 4.0. Atribuição obrigatória:</p>
+  <ul>
+  <li>MPX_specDB (Zenodo 10149551), CC BY-SA 4.0 — Lenz R, Fischer F, Arnold M, et al. 2023, doi 10.5281/zenodo.8314801.</li>
+  <li>FasTEX, fibras têxteis ATR-FTIR (Mendeley Data rx3fjgz96x.3), CC BY 4.0.</li>
+  <li>Figshare 24593022 (doi 10.6084/m9.figshare.24593022), CC BY 4.0.</li>
+  <li>Zenodo 15969268 — Papadopoulou K, Ainali NM, Mašek O, Bikiaris DN, <i>Polymers</i> 16(21):3080, 2024, CC BY 4.0.</li>
+  </ul></details>
+</main>
+<script src="ftir_core.js"></script>
+<script src="espectro.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
