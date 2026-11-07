@@ -10,7 +10,7 @@
       p.push([x, unit === "A" ? v : -Math.log10(Math.max(unit === "T%" ? v / 100 : v, 1e-6))]); }
     if (p.length < 50) throw new Error("espectro com poucos pontos (mínimo 50)");
     p.sort((a, b) => a[0] - b[0]); const q = p.filter((r, i) => !i || r[0] > p[i - 1][0]);
-    if (q[0][0] > 750 || q[q.length - 1][0] < 3500) throw new Error(`faixa insuficiente (${q[0][0].toFixed(0)}–${q[q.length - 1][0].toFixed(0)} cm⁻¹); preciso cobrir 750–3500`);
+    if (q[0][0] > 900 || q[q.length - 1][0] < 3300) throw new Error(`faixa insuficiente (${q[0][0].toFixed(0)}–${q[q.length - 1][0].toFixed(0)} cm⁻¹); preciso cobrir 900–3300`);
     return q;
   }
   function run(text, lib, opts) {
