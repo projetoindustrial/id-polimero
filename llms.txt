@@ -1,0 +1,9 @@
+# ID Polímero
+
+> Identifica polímeros comuns a partir de espectros FT-IR: reamostragem, correção ATR e comparação com biblioteca de referência.
+
+## Páginas
+- [Aplicação](https://projetoindustrial.github.io/id-polimero/)
+
+## Aviso
+Ferramenta visual/interativa: o texto da página descreve o que ela faz; os resultados dependem de uso no navegador.

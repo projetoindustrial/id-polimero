@@ -32,11 +32,14 @@
   th { text-align:left; font-weight:600; color:var(--mut); } th:last-child { text-align:right; }
   small { color:var(--mut); }
 </style>
+<link rel="canonical" href="https://projetoindustrial.github.io/id-polimero/">
+<link rel="alternate" type="text/plain" href="https://projetoindustrial.github.io/id-polimero/llms.txt" title="llms.txt">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Identificador de polímeros (FT-IR)", "applicationCategory": "EducationalApplication", "operatingSystem": "Web", "inLanguage": "pt-BR", "url": "https://projetoindustrial.github.io/id-polimero/", "description": "Identifica polímeros comuns a partir de espectros FT-IR: reamostragem, correção ATR e comparação com biblioteca de referência.", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "BRL"}}</script>
 </head>
 <body>
 <main>
   <h1>Identificador de polímeros (FT-IR)</h1>
-  <p class="sub">Roda no aparelho, sem rede. Carregue interferogramas (CSV do ftir_sim ou do firmware), um espectro pronto, ou use um exemplo.</p>
+  <p class="sub">O cálculo roda no seu aparelho. Os espectros que você carrega não são enviados a nenhum servidor; o app só baixa a biblioteca de referência e funciona offline depois. Carregue interferogramas (CSV do ftir_sim ou do firmware), um espectro pronto, ou use um exemplo.</p>
   <div class="tabs" role="tablist"><button id="tab1" role="tab" aria-selected="true">Interferograma</button><button id="tab2" role="tab" aria-selected="false">Espectro pronto</button></div>
   <section id="p1">
   <label for="fs">Amostra</label><input id="fs" type="file" accept=".csv,text/csv">
@@ -59,7 +62,7 @@
   </section>
   <div id="out" class="card" hidden aria-live="polite"></div>
   <p><small id="status" role="status">Carregando biblioteca…</small></p>
-  <p class="card aviso"><small>Ferramenta de pesquisa. A biblioteca tem 5 polímeros (PE, PET, PLA, PP, PS) mais classes de rejeição e não foi calibrada para um aparelho real nem testada em celular. “Desconhecido” significa fora da biblioteca, não ausência de polímero. Não use para decisões de segurança ou conformidade.</small></p>
+  <p class="card aviso"><small>Ferramenta de pesquisa. A biblioteca tem 51 espectros de referência: 5 polímeros (PE, PET, PLA, PP, PS) e 46 de rejeição. Ela não foi calibrada para um aparelho real nem testada em celular. “Desconhecido” significa fora da biblioteca, não ausência de polímero. Não use para decisões de segurança ou conformidade.</small></p>
   <details><summary>Créditos e licenças</summary>
   <p>Código: MIT. A biblioteca embutida (<code>lib.json</code>) é derivada de dados abertos e, por conter material CC BY-SA, é distribuída em CC BY-SA 4.0. Atribuição obrigatória:</p>
   <ul>
