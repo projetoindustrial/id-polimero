@@ -39,8 +39,8 @@
 <body>
 <main>
   <h1>Identificador de polímeros (FT-IR)</h1>
-  <p class="sub">O cálculo roda no seu aparelho. Os espectros que você carrega não são enviados a nenhum servidor; o app só baixa a biblioteca de referência e funciona offline depois. Carregue interferogramas (CSV do ftir_sim ou do firmware), um espectro pronto, ou use um exemplo.</p>
-  <div class="tabs" role="tablist"><button id="tab1" role="tab" aria-selected="true">Interferograma</button><button id="tab2" role="tab" aria-selected="false">Espectro pronto</button></div>
+  <p class="sub">O cálculo roda no seu aparelho. Os espectros que você carrega não são enviados a nenhum servidor, a menos que você configure a busca online (opcional, no seu próprio Worker): nesse caso só o vetor pré-processado e a técnica saem do aparelho. O app baixa a biblioteca de referência e funciona offline depois. Carregue interferogramas (CSV do ftir_sim ou do firmware), um espectro pronto, ou use um exemplo.</p>
+  <div class="tabs" role="tablist"><button id="tab1" role="tab" aria-selected="true">Interferograma</button><button id="tab2" role="tab" aria-selected="false">Espectro pronto</button><button id="tab3" role="tab" aria-selected="false">Raman/NIR</button></div>
   <section id="p1">
   <label for="fs">Amostra</label><input id="fs" type="file" accept=".csv,text/csv">
   <label for="fb">Background</label><input id="fb" type="file" accept=".csv,text/csv">
@@ -60,9 +60,27 @@
   <div><button id="srun">Analisar espectro</button><button id="sdemo">Exemplo: PET</button></div>
   <small>Sem 2º background não há ruído de linha medido: o limiar é fixo em 0,60 (o mais conservador da regra adaptativa).</small>
   </section>
+  <section id="p3" hidden>
+  <label for="rtec">Técnica</label>
+  <select id="rtec"><option value="raman">Raman (620–1800 cm⁻¹)</option><option value="nir">NIR (3999–10001 cm⁻¹; só consulta)</option><option value="nir2">NIR v2 (900–1700 nm; receita A; uso interno)</option></select>
+  <div id="rdomrow" hidden><label for="rdom">Domínio (as fontes não se misturam)</label>
+  <select id="rdom"><option value="nirm_asd">nirm_asd — plástico em substrato, ASD</option><option value="dlp_nano">dlp_nano — DLP NIRscan Nano (só PET)</option><option value="holt_media">holt_media — médias processadas</option></select></div>
+  <label for="rf">Espectro (CSV: eixo x, intensidade)</label><input id="rf" type="file" accept=".csv,.txt,text/csv,text/plain">
+  <label for="rux">Unidade do eixo x</label>
+  <select id="rux"><option value="cm">cm⁻¹ (número de onda / deslocamento Raman)</option><option value="nm">nm (comprimento de onda; só NIR)</option></select>
+  <div><button id="rrun">Buscar online</button></div>
+  <small id="rinfo">Faixa exigida: 620–1800 cm⁻¹ (deslocamento Raman). 79% das referências são do MPX; acerto entre fontes ~67%.</small><br>
+  <small>Esta aba só funciona com a busca online configurada (abaixo): o espectro é pré-processado aqui e só o vetor segue para o seu Worker.</small>
+  </section>
   <div id="out" class="card" hidden aria-live="polite"></div>
   <p><small id="status" role="status">Carregando biblioteca…</small></p>
   <p class="card aviso"><small>Ferramenta de pesquisa. A biblioteca tem 51 espectros de referência: 5 polímeros (PE, PET, PLA, PP, PS) e 46 de rejeição. Ela não foi calibrada para um aparelho real nem testada em celular. “Desconhecido” significa fora da biblioteca, não ausência de polímero. Não use para decisões de segurança ou conformidade.</small></p>
+  <details id="cfgonline"><summary>Busca online (opcional)</summary>
+  <p>Consulta uma biblioteca maior (FTIR 10.610, Raman 2.337, NIR 570 espectros) no seu Worker da Cloudflare. Só o vetor pré-processado e a técnica saem do aparelho; a amostra bruta não. URL e token ficam guardados <b>apenas neste aparelho</b>: não use em aparelho compartilhado.</p>
+  <label for="cfgurl">URL do Worker (https)</label><input id="cfgurl" type="url" autocomplete="off" placeholder="https://ftir-curada.SUA-CONTA.workers.dev" style="width:100%">
+  <label for="cfgtoken">Token (não é exibido depois de salvo)</label><input id="cfgtoken" type="password" autocomplete="off" style="width:100%">
+  <div><button id="cfgsalvar">Salvar</button><button id="cfgtestar">Testar</button><button id="cfgesquecer">Esquecer</button></div>
+  <small id="cfgstatus">Não configurado.</small></details>
   <details><summary>Créditos e licenças</summary>
   <p>Código: MIT. A biblioteca embutida (<code>lib.json</code>) é derivada de dados abertos e, por conter material CC BY-SA, é distribuída em CC BY-SA 4.0. Atribuição obrigatória:</p>
   <ul>
@@ -75,6 +93,9 @@
 </main>
 <script src="ftir_core.js"></script>
 <script src="espectro.js"></script>
+<script src="preprocess_grade.js"></script>
+<script src="preprocess_receitaA.js"></script>
+<script src="online.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
