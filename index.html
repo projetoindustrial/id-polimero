@@ -64,7 +64,7 @@
   <label for="rtec">Técnica</label>
   <select id="rtec"><option value="raman">Raman (620–1800 cm⁻¹)</option><option value="nir">NIR (3999–10001 cm⁻¹; só consulta)</option><option value="nir2">NIR v2 (900–1700 nm; receita A; uso interno)</option></select>
   <div id="rdomrow" hidden><label for="rdom">Domínio (as fontes não se misturam)</label>
-  <select id="rdom"><option value="nirm_asd">nirm_asd — plástico em substrato, ASD</option><option value="dlp_nano">dlp_nano — DLP NIRscan Nano (só PET)</option><option value="holt_media">holt_media — médias processadas</option></select></div>
+  <select id="rdom"><option value="nirm_asd">nirm_asd — plástico em substrato, ASD</option><option value="dlp_nano">dlp_nano — DLP NIRscan Nano (só PET)</option><option value="holt_media">holt_media — médias processadas</option><option value="hiper_refletancia">hiper_refletancia — Leone et al., seco (PE, PET, PP, PS, PVC)</option></select></div>
   <label for="rf">Espectro (CSV: eixo x, intensidade)</label><input id="rf" type="file" accept=".csv,.txt,text/csv,text/plain">
   <label for="rux">Unidade do eixo x</label>
   <select id="rux"><option value="cm">cm⁻¹ (número de onda / deslocamento Raman)</option><option value="nm">nm (comprimento de onda; só NIR)</option></select>
@@ -89,6 +89,13 @@
   <li>Figshare 24593022 (doi 10.6084/m9.figshare.24593022), CC BY 4.0.</li>
   <li>Zenodo 15969268 — Papadopoulou K, Ainali NM, Mašek O, Bikiaris DN, <i>Polymers</i> 16(21):3080, 2024, CC BY 4.0.</li>
   </ul>
+  <p>Busca online NIR v2 (só com Worker próprio configurado). Fontes dos domínios, todas CC BY 4.0:</p>
+  <ul>
+  <li>nirm_asd e holt_media — Holt, Z. (2024), <i>NIR/SWIR Spectral Library of Plastic-Substrate Mixtures</i> (v2), Zenodo, doi 10.5281/zenodo.14419753.</li>
+  <li>dlp_nano — Alimbekova, N. (2025), <i>Spectral Dataset for Plastic Waste Classification Using NIR Spectroscopy</i> (v1), Zenodo, doi 10.5281/zenodo.16739334.</li>
+  <li>hiper_refletancia — Leone, G.; Catarino, A.; De Keukelaere, L.; Bossaer, M.; Knaeps, E.; Everaert, G. (2021), <i>Hyperspectral reflectance dataset for dry, wet and submerged plastics in clear and turbid water</i>, Marine Data Archive, doi 10.14284/530; artigo: Earth Syst. Sci. Data 15, 745–752 (2023), doi 10.5194/essd-15-745-2023.</li>
+  </ul>
+  <p>Esses dados foram reamostrados (900–1700 nm, 4 nm), padronizados (SNV), derivados (Savitzky-Golay) e reduzidos (PCA) pelo projeto. Licença: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Os autores originais não endossam este aplicativo.</p>
   <p>Os espectros da biblioteca foram reamostrados, corrigidos (ATR) e derivados.</p></details>
 </main>
 <script src="ftir_core.js"></script>
