@@ -6,7 +6,7 @@
 - [Aplicação](https://projetoindustrial.github.io/id-polimero/)
 
 ## Biblioteca e atribuição
-A biblioteca embutida (`lib.json`) tem 51 espectros de referência. Código: MIT. Biblioteca: CC BY-SA 4.0 (derivada de dados abertos; atribuição obrigatória). Fontes citadas na página:
+A biblioteca embutida (`lib.json`) tem 51 espectros de referência. Biblioteca: CC BY-SA 4.0 (derivada de dados abertos; atribuição obrigatória). Fontes citadas na página:
 - MPX_specDB (Zenodo 10149551), CC BY-SA 4.0: Lenz R, Fischer F, Arnold M, et al., 2023, doi 10.5281/zenodo.8314801
 - FasTEX, fibras têxteis ATR-FTIR (Mendeley Data rx3fjgz96x.3), CC BY 4.0
 - Figshare 24593022 (doi 10.6084/m9.figshare.24593022), CC BY 4.0

@@ -8,4 +8,4 @@ Busca online (opcional): quem tem um Worker próprio da Cloudflare pode configur
 Site: https://projetoindustrial.github.io/id-polimero/
 
 Ferramenta de pesquisa: biblioteca não calibrada para aparelho real; não use para decisões de segurança ou conformidade.
-Código: MIT. Biblioteca embutida (`lib.json`): CC BY-SA 4.0, derivada de MPX_specDB e outras fontes abertas; créditos completos na própria página.
+Biblioteca embutida (`lib.json`): CC BY-SA 4.0, derivada de MPX_specDB e outras fontes abertas; créditos completos na própria página.
